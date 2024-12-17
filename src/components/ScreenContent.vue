@@ -3,7 +3,7 @@
       <v-row class="fill-height">
         <!-- Screen Share Content -->
         <v-col class="screen-share" :style="screenShareStyle">
-          <div class="screen-display">
+          <div class="screen-display border-md">
             <h2>Start Screen Share</h2>
           </div>
         </v-col>
@@ -42,8 +42,7 @@
   
   <style scoped>
   .screen-content {
-    background-color: #f5f5f5;
-    height: calc(100vh - 64px); /* Full height minus BottomBar */
+    height: calc(100vh - 45px); /* Full height minus BottomBar */
     overflow: hidden;
     position: relative;
   }
@@ -58,7 +57,6 @@
   .screen-display {
     width: 100%;
     height: 100%;
-    background-color: #ddd;
     border-radius: 8px;
     display: flex;
     align-items: center;
