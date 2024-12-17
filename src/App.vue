@@ -1,11 +1,23 @@
-<template>
+ <!-- src/App.vue -->
+ <template>
   <v-app>
     <v-main>
-      <h1>hello</h1>
+      <ScreenContent />
     </v-main>
+    <BottomBar :participantCount="0" />
   </v-app>
 </template>
 
-<script lang="ts" setup>
-  //
+<script lang="ts">
+import { defineComponent } from 'vue';
+import BottomBar from './components/BottomBar.vue';
+import ScreenContent from './components/ScreenContent.vue';
+
+export default defineComponent({
+  name: 'App',
+  components: {
+    BottomBar,
+    ScreenContent
+  }
+});
 </script>
