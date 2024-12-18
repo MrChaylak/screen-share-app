@@ -4,13 +4,13 @@
   "version": "0.0.0",
   "main": "electron/main.js",
   "scripts": {
-    "dev": "vite",
+    "dev:vue": "vite",
+    "dev:electron": "electron .",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
-    "lint": "eslint . --fix",
-    "electron:start": "electron ."
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "@mdi/font": "7.4.47",
