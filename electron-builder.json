@@ -1,0 +1,15 @@
+{
+    "appId": "com.osman.screen-share-app",
+    "files": ["dist-electron", "dist"],
+    "icon": "./desktopIcon.png",
+    "mac": {
+        "target": "dmg"
+    },
+    "linux": {
+        "target": "AppImage",
+        "category": "Utility"
+    },
+    "win": {
+        "target": ["portable", "msi"]
+    }
+}

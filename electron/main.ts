@@ -1,6 +1,8 @@
 const { app, BrowserWindow } = require('electron/main')
 const path = require('node:path')
 
+type test = string;
+
 function createWindow () {
   const win = new BrowserWindow({
     width: 1040,
@@ -13,7 +15,7 @@ function createWindow () {
   if (process.env.NODE_ENV === 'development') {
     win.loadURL('http://localhost:3000');
   } else {
-    win.loadFile('dist/index.html');
+    win.loadFile('dist-vue/index.html');
   }
 }
 

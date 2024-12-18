@@ -34,6 +34,9 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    outDir: 'dist-vue',
+  },
   define: { 'process.env': {} },
   resolve: {
     alias: {
