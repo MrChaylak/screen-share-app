@@ -12,6 +12,7 @@
           class="mx-3"
           dense
           outlined
+          style="max-width: 180px;"
         />
 
         <!-- Camera Toggle Button -->
@@ -43,11 +44,52 @@
   </v-footer>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  props: ['isScreenSharing', 'cameraOptions'],
+  name: 'BottomBar',
+  props: {
+    participantCount: {
+      type: Number,
+      required: true
+    },
+    cameraOptions: {
+      type: Array,
+      required: true
+    },
+    selectedCameraId: {
+      type: String,
+      required: false
+    },
+    isScreenSharing: {
+      type: Boolean,
+      required: true
+    }
+  },
   data() {
-    return { isCameraOn: false, selectedCamera: null };
+    return {
+      isCameraOn: false,
+      selectedCamera: this.selectedCameraId || null
+    };
+  },
+  methods: {
+    toggleCamera() {
+      this.isCameraOn = !this.isCameraOn;
+      this.$emit('toggle-camera', this.isCameraOn, this.selectedCamera);
+    },
+    shareScreen() {
+      console.log('Screen sharing started');
+    }
+  },
+  watch: {
+    selectedCamera(newVal) {
+      this.$emit('update-camera', newVal);
+    }
   }
 };
 </script>
+
+<style scoped>
+v-btn {
+  margin: 0 15px;
+}
+</style>

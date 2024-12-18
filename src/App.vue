@@ -12,7 +12,7 @@
           </video>
         </div>
 
-        <!-- Camera Feed Display -->
+        <!-- Camera Feed Display (Floating on Top of the Screen Share) -->
         <div v-if="isCameraRunning" class="camera-feed">
           <CameraDisplay :stream="currentStream" />
         </div>
@@ -161,7 +161,6 @@ export default {
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
         this.screenStream = stream;
 
-        // Attach the stream to the video element
         const videoElement = this.$refs.screenVideo;
         videoElement.srcObject = stream;
 
@@ -183,6 +182,7 @@ export default {
 </script>
 
 <style scoped>
+/* Screen container holds screen share and camera feed */
 .screen-container {
   position: relative;
   width: 100%;
@@ -193,13 +193,27 @@ export default {
   overflow: hidden;
 }
 
+/* Fullscreen for the screen share */
 .screen-share-display {
   width: 100%;
-  height: calc(100vh - 105px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #e0e0e0;
+  height: 100%;
+  position: relative;
+  background-color: #000;
+}
+
+/* Camera feed as a floating window */
+.camera-feed {
+  position: absolute;
+  top: 20px; /* Position relative to the screen video */
+  right: 20px;
+  width: 200px;
+  height: 120px;
+  background-color: #000;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 10; /* Ensures camera feed is on top */
+  overflow: hidden;
 }
 
 .screen-option {
