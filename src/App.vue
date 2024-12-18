@@ -24,9 +24,11 @@
       :participantCount="0"
       :cameraOptions="cameras"
       :selectedCameraId="selectedCameraId"
+      :isScreenSharing="!!screenStream"
       @toggle-camera="toggleCamera"
       @update-camera="updateSelectedCamera"
       @share-screen="showScreenSelection"
+      @stop-screen-share="stopScreenShare"
     />
 
     <!-- Screen Selection Dialog -->
@@ -165,6 +167,12 @@ export default {
 
       } catch (error) {
         console.error("Error starting screen share:", error);
+      }
+    },
+    stopScreenShare() {
+      if (this.screenStream) {
+        this.screenStream.getTracks().forEach(track => track.stop());
+        this.screenStream = null;
       }
     }
   },

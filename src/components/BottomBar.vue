@@ -12,7 +12,6 @@
           class="mx-3"
           dense
           outlined
-          style="max-width: 180px;"
         />
 
         <!-- Camera Toggle Button -->
@@ -21,63 +20,34 @@
         </v-btn>
 
         <!-- Share Screen Button -->
-        <v-btn icon @click="$emit('share-screen')" class="mx-3">
+        <v-btn 
+          v-if="!isScreenSharing" 
+          icon 
+          @click="$emit('share-screen')" 
+          class="mx-3"
+        >
           <v-icon>mdi-monitor-share</v-icon>
         </v-btn>
 
-
-        <!-- People Icon with Count -->
-        <v-btn icon class="mx-3">
-          <v-icon>mdi-account-group</v-icon>
-          <span>{{ participantCount }}</span>
+        <!-- Stop Screen Share Button -->
+        <v-btn 
+          v-if="isScreenSharing" 
+          icon 
+          @click="$emit('stop-screen-share')" 
+          class="mx-3"
+        >
+          <v-icon>mdi-monitor-off</v-icon>
         </v-btn>
       </v-row>
     </v-container>
   </v-footer>
 </template>
 
-<script lang="ts">
+<script>
 export default {
-  name: 'BottomBar',
-  props: {
-    participantCount: {
-      type: Number,
-      required: true
-    },
-    cameraOptions: {
-      type: Array,
-      required: true
-    },
-    selectedCameraId: {
-      type: String,
-      required: false
-    }
-  },
+  props: ['isScreenSharing', 'cameraOptions'],
   data() {
-    return {
-      isCameraOn: false,
-      selectedCamera: this.selectedCameraId || null
-    };
-  },
-  methods: {
-    toggleCamera() {
-      this.isCameraOn = !this.isCameraOn;
-      this.$emit('toggle-camera', this.isCameraOn, this.selectedCamera);
-    },
-    shareScreen() {
-      console.log('Screen sharing started');
-    }
-  },
-  watch: {
-    selectedCamera(newVal) {
-      this.$emit('update-camera', newVal);
-    }
+    return { isCameraOn: false, selectedCamera: null };
   }
 };
 </script>
-
-<style scoped>
-v-btn {
-  margin: 0 15px;
-}
-</style>
