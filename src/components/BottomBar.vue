@@ -1,18 +1,29 @@
-// src/components/BottomBar.vue
 <template>
   <v-footer app>
     <v-container fluid>
       <v-row align="center" justify="center">
+        <!-- Camera Device Selection -->
+        <v-select
+          label="Select Camera"
+          v-model="selectedCamera"
+          :items="cameraOptions"
+          item-text="label"
+          item-value="deviceId"
+          class="mx-3"
+          dense
+          outlined
+        />
+
         <!-- Camera Toggle Button -->
         <v-btn icon @click="toggleCamera" class="mx-3">
-          <v-icon>{{ cameraOn ? 'mdi-camera' : 'mdi-camera-off' }}</v-icon>
+          <v-icon>{{ isCameraOn ? 'mdi-camera' : 'mdi-camera-off' }}</v-icon>
         </v-btn>
-        
+
         <!-- Share Screen Button -->
         <v-btn icon @click="shareScreen" class="mx-3">
           <v-icon>mdi-monitor-share</v-icon>
         </v-btn>
-        
+
         <!-- People Icon with Count -->
         <v-btn icon class="mx-3">
           <v-icon>mdi-account-group</v-icon>
@@ -24,39 +35,47 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-
-export default defineComponent({
+export default {
   name: 'BottomBar',
   props: {
     participantCount: {
       type: Number,
       required: true
+    },
+    cameraOptions: {
+      type: Array,
+      required: true
+    },
+    selectedCameraId: {
+      type: String,
+      required: false
     }
   },
-  setup(_, { emit }) {
-    const cameraOn = ref(false);
-
-    const toggleCamera = () => {
-      cameraOn.value = !cameraOn.value;
-      emit('toggle-camera', cameraOn.value);
-    };
-
-    const shareScreen = () => {
-      console.log('Screen sharing started');
-    };
-
+  data() {
     return {
-      cameraOn,
-      toggleCamera,
-      shareScreen
+      isCameraOn: false,
+      selectedCamera: this.selectedCameraId || null
     };
+  },
+  methods: {
+    toggleCamera() {
+      this.isCameraOn = !this.isCameraOn;
+      this.$emit('toggle-camera', this.isCameraOn, this.selectedCamera);
+    },
+    shareScreen() {
+      console.log('Screen sharing started');
+    }
+  },
+  watch: {
+    selectedCamera(newVal) {
+      this.$emit('update-camera', newVal);
+    }
   }
-});
+};
 </script>
 
 <style scoped>
-  v-btn {
-    margin: 0 15px;
-  }
+v-btn {
+  margin: 0 15px;
+}
 </style>
