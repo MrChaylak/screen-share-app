@@ -12,6 +12,7 @@
           class="mx-3"
           dense
           outlined
+          style="max-width: 180px;"
         />
 
         <!-- Camera Toggle Button -->

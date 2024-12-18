@@ -109,7 +109,7 @@ export default {
 
 .screen-share-display {
   width: 100%;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 105px);
   display: flex;
   align-items: center;
   justify-content: center;
