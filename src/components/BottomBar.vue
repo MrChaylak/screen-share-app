@@ -39,12 +39,20 @@
         >
           <v-icon>mdi-monitor-off</v-icon>
         </v-btn>
+
+        <!-- Theme Toggle Button -->
+        <v-btn icon @click="toggleTheme" class="mx-3">
+          <v-icon>{{ isDarkTheme ? 'mdi-white-balance-sunny' : 'mdi-moon-waning-crescent' }}</v-icon>
+        </v-btn>
       </v-row>
     </v-container>
   </v-footer>
 </template>
 
 <script lang="ts">
+import { useTheme } from 'vuetify';
+import { ref, computed } from 'vue';
+
 export default {
   name: 'BottomBar',
   props: {
@@ -64,6 +72,19 @@ export default {
       type: Boolean,
       required: true
     }
+  },
+  setup() {
+    const theme = useTheme();
+
+    // Computed to know if the current theme is dark
+    const isDarkTheme = computed(() => theme.global.current.value.dark);
+
+    const toggleTheme = () => {
+      // Toggle between light and dark themes
+      theme.global.name.value = isDarkTheme.value ? 'light' : 'dark';
+    };
+
+    return { theme, toggleTheme, isDarkTheme };
   },
   data() {
     return {
