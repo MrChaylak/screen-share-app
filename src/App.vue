@@ -18,14 +18,45 @@
         </div>
       </div>
     </v-main>
+
+    <!-- Bottom Bar for Controls -->
     <BottomBar
       :participantCount="0"
       :cameraOptions="cameras"
       :selectedCameraId="selectedCameraId"
       @toggle-camera="toggleCamera"
       @update-camera="updateSelectedCamera"
-      @share-screen="startScreenShare"
+      @share-screen="showScreenSelection"
     />
+
+    <!-- Screen Selection Dialog -->
+    <v-dialog v-model="showScreenDialog" max-width="600px">
+      <v-card>
+        <v-card-title>Select a screen to share</v-card-title>
+        <v-card-text>
+          <v-row>
+            <v-col 
+              v-for="source in screenSources" 
+              :key="source.id" 
+              cols="6" 
+              class="screen-option"
+            >
+              <v-img 
+                :src="source.thumbnail" 
+                aspect-ratio="16/9" 
+                @click="startScreenShare(source)"
+                class="screen-thumbnail"
+              />
+              <p class="text-center">{{ source.name }}</p>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="showScreenDialog = false">Cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
@@ -42,7 +73,9 @@ export default {
       selectedCameraId: null,
       isCameraRunning: false,
       currentStream: null,
-      screenStream: null
+      screenStream: null,
+      screenSources: [], // Screens and windows to select from
+      showScreenDialog: false, // Controls the screen selection dialog
     };
   },
   methods: {
@@ -96,17 +129,29 @@ export default {
     updateSelectedCamera(deviceId) {
       this.selectedCameraId = deviceId;
     },
-    async startScreenShare() {
+    async showScreenSelection() {
       try {
         const sources = await window.electron.getSources();
-        const source = sources[0]; // Automatically selects the first screen, you can add logic for user choice.
+        this.screenSources = sources.map(source => ({
+          id: source.id,
+          name: source.name,
+          thumbnail: source.thumbnail.toDataURL()
+        }));
+        this.showScreenDialog = true;
+      } catch (error) {
+        console.error("Error fetching screens:", error);
+      }
+    },
+    async startScreenShare(source) {
+      try {
+        this.showScreenDialog = false;
 
         const constraints = {
           audio: false,
           video: {
             mandatory: {
               chromeMediaSource: 'desktop',
-              chromeMediaSourceId: source.id,
+              chromeMediaSourceId: source.id
             }
           }
         };
@@ -149,15 +194,16 @@ export default {
   background-color: #e0e0e0;
 }
 
-.camera-feed {
-  position: absolute;
-  bottom: 80px;
-  right: 20px;
-  width: 240px;
-  height: 135px;
-  background-color: #000;
-  border: 2px solid #fff;
+.screen-option {
+  cursor: pointer;
+}
+
+.screen-thumbnail {
   border-radius: 8px;
-  z-index: 10;
+  border: 2px solid #ccc;
+}
+
+.screen-thumbnail:hover {
+  border-color: #3f51b5;
 }
 </style>
