@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron/main')
 const path = require('node:path')
+import { isDev } from './util.js';
 
 type test = string;
 
@@ -12,7 +13,12 @@ function createWindow () {
     }
   })
 
-  if (process.env.NODE_ENV === 'development') {
+  /* if (process.env.NODE_ENV === 'development') {
+    win.loadURL('http://localhost:3000');
+  } else {
+    win.loadFile('dist-vue/index.html');
+  } */
+  if (isDev()) {
     win.loadURL('http://localhost:3000');
   } else {
     win.loadFile('dist-vue/index.html');
