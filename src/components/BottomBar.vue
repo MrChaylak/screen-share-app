@@ -21,9 +21,10 @@
         </v-btn>
 
         <!-- Share Screen Button -->
-        <v-btn icon @click="shareScreen" class="mx-3">
+        <v-btn icon @click="$emit('share-screen')" class="mx-3">
           <v-icon>mdi-monitor-share</v-icon>
         </v-btn>
+
 
         <!-- People Icon with Count -->
         <v-btn icon class="mx-3">

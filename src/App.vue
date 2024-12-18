@@ -4,7 +4,12 @@
       <div class="screen-container">
         <!-- Screen Share Display -->
         <div class="screen-share-display">
-          <h2>Screen Share Display</h2>
+          <video 
+            ref="screenVideo" 
+            autoplay 
+            playsinline 
+            style="width: 100%; height: 100%; background-color: #000;">
+          </video>
         </div>
 
         <!-- Camera Feed Display -->
@@ -19,6 +24,7 @@
       :selectedCameraId="selectedCameraId"
       @toggle-camera="toggleCamera"
       @update-camera="updateSelectedCamera"
+      @share-screen="startScreenShare"
     />
   </v-app>
 </template>
@@ -35,7 +41,8 @@ export default {
       cameras: [],
       selectedCameraId: null,
       isCameraRunning: false,
-      currentStream: null
+      currentStream: null,
+      screenStream: null
     };
   },
   methods: {
@@ -88,6 +95,32 @@ export default {
     },
     updateSelectedCamera(deviceId) {
       this.selectedCameraId = deviceId;
+    },
+    async startScreenShare() {
+      try {
+        const sources = await window.electron.getSources();
+        const source = sources[0]; // Automatically selects the first screen, you can add logic for user choice.
+
+        const constraints = {
+          audio: false,
+          video: {
+            mandatory: {
+              chromeMediaSource: 'desktop',
+              chromeMediaSourceId: source.id,
+            }
+          }
+        };
+
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        this.screenStream = stream;
+
+        // Attach the stream to the video element
+        const videoElement = this.$refs.screenVideo;
+        videoElement.srcObject = stream;
+
+      } catch (error) {
+        console.error("Error starting screen share:", error);
+      }
     }
   },
   mounted() {
@@ -114,8 +147,6 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: #e0e0e0;
-  font-size: 1.5rem;
-  color: #333;
 }
 
 .camera-feed {

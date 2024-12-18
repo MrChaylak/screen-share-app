@@ -1,42 +1,35 @@
-const { app, BrowserWindow } = require('electron/main')
-const path = require('node:path')
-import { isDev } from './util.js';
+import { app, BrowserWindow, ipcMain, desktopCapturer } from 'electron';
 
-type test = string;
+let mainWindow: BrowserWindow | null;
 
-function createWindow () {
-  const win = new BrowserWindow({
-    width: 1040,
-    height: 780,
+app.on('ready', () => {
+  mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 800,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: __dirname + '/preload.js',
+      contextIsolation: true,
+      nodeIntegration: false
     }
-  })
+  });
 
-  /* if (process.env.NODE_ENV === 'development') {
-    win.loadURL('http://localhost:3000');
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.loadURL('http://localhost:3000');
   } else {
-    win.loadFile('dist-vue/index.html');
-  } */
-  if (isDev()) {
-    win.loadURL('http://localhost:3000');
-  } else {
-    win.loadFile('dist-vue/index.html');
+    mainWindow.loadFile('./dist-vue/index.html');
   }
-}
-
-app.whenReady().then(() => {
-  createWindow()
-
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow()
-    }
-  })
-})
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.quit()
+    app.quit();
   }
-})
+});
+
+// Listen for screen capture request from renderer
+ipcMain.handle('get-sources', async () => {
+  const sources = await desktopCapturer.getSources({ 
+    types: ['window', 'screen'] 
+  });
+  return sources;
+});
