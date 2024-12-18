@@ -1,4 +1,6 @@
 import { app, BrowserWindow, ipcMain, desktopCapturer } from 'electron';
+const { Menu } = require('electron');
+Menu.setApplicationMenu(null);
 
 let mainWindow: BrowserWindow | null;
 
