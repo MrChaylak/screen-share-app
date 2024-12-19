@@ -1,6 +1,6 @@
 # Screen Share App
 
-Welcome to the Screen Share App repository! This guide will help you set up the project, run it, and package it for various platforms. If you encounter any issues, please check the troubleshooting section.
+Welcome to the Screen Share App repository! This guide will help you set up the project, run it, and package it for various platforms.
 
 ## Table of Contents
 
@@ -14,9 +14,9 @@ Welcome to the Screen Share App repository! This guide will help you set up the 
 
 Before setting up the project, ensure you have the following tools installed on your machine:
 
-| [Node.js (v16 or higher)](https://nodejs.org/) |
-| [npm (comes with Node.js) or Yarn]             |
-| [Git ](https://git-scm.com/)                   |
+- [Node.js (v16 or higher)](https://nodejs.org/)
+- [npm (comes with Node.js) or Yarn]
+- [Git ](https://git-scm.com/)
 
 
 To verify the installation, run the following commands:
