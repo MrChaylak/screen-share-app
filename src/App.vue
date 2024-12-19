@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <v-main>
-      <div class="screen-container">
+      <div class="screen-container border-md">
         <!-- Screen Share Display -->
-        <div class="screen-share-display">
+        <div class="screen-share-display ">
           <video 
             ref="screenVideo" 
             autoplay 
@@ -186,9 +186,7 @@ export default {
 .screen-container {
   position: relative;
   width: 100%;
-  height: 90vh;
-  background-color: #f5f5f5;
-  border: 2px solid #ccc;
+  height: calc(100vh - 102px);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -209,7 +207,7 @@ export default {
   width: 200px;
   height: 120px;
   background-color: #000;
-  border: 2px solid #fff;
+  border: 2px solid #adadad;
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   z-index: 10; /* Ensures camera feed is on top */
