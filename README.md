@@ -61,6 +61,7 @@ This will run both the Vue app and Electron app in parallel. The Vue app will be
 If you want to run only the Electron app, you can use:
 
 ```bash
+npm run build
 npm run electron:start
 ```
 
