@@ -1,0 +1,1 @@
+{"root":["./src/main.ts","./src/plugins/index.ts","./src/plugins/vuetify.ts","./src/router/index.ts","./src/app.vue","./src/components/bottombar.vue","./src/components/cameradisplay.vue","./src/components/screencontent.vue","./src/pages/index.vue"],"errors":true,"version":"5.6.3"}
